@@ -237,26 +237,26 @@ exports.fetchReview = async (req, res) => {
             },
             {
                 $lookup: {
-                    from: "users", // Assuming your users collection is called "users"
-                    localField: "reviews.userId", // The field in the reviews array that references the user's ID
-                    foreignField: "_id", // The field in the users collection that contains the user ID
+                    from: "users", 
+                    localField: "reviews.userId", 
+                    foreignField: "_id",
                     as: "userDetails"
                 }
             },
             {
-                $unwind: "$userDetails" // Unwind the userDetails array to make it a single object
+                $unwind: "$userDetails" 
             },
             {
                 $addFields: {
-                    "reviews.email": "$userDetails.email" // Add the email directly to the reviews object
+                    "reviews.email": "$userDetails.email" 
                 }
             },
             {
                 $project: {
-                    _id: 0, // Exclude the course ID
+                    _id: 0, 
                     "reviews.userId": 1,
                     "reviews.review_text": 1,
-                    "reviews.email": 1 // Include the email in the reviews object
+                    "reviews.email": 1 
                 }
             }
         ]);
